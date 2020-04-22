@@ -41,7 +41,7 @@ class InfluxDBWriter(multiprocessing.Process):
     def __init__(self, queue):
         multiprocessing.Process.__init__(self)
         self.queue = queue
-        self.client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org", debug=False)
+        self.client = InfluxDBClient.from_env_properties()
         self.write_api = self.client.write_api(
             write_options=WriteOptions(write_type=WriteType.batching, batch_size=50_000, flush_interval=10_000))
 
@@ -144,7 +144,7 @@ url = "https://s3.amazonaws.com/nyc-tlc/trip+data/fhv_tripdata_2019-01.csv"
 # url = "file:///Users/bednar/Developer/influxdata/influxdb-client-python/examples/fhv_tripdata_2019-01.csv"
 
 """
-Open URL and for stream data 
+Open URL and for stream data
 """
 response = urlopen(url)
 if response.headers:
@@ -199,7 +199,7 @@ query = 'from(bucket:"my-bucket")' \
         '|> rename(columns: {_time: "pickup_datetime"})' \
         '|> drop(columns: ["_start", "_stop"])|> limit(n:10, offset: 0)'
 
-client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org", debug=False)
+client = InfluxDBClient.from_env_properties()
 result = client.query_api().query(query=query)
 
 """
