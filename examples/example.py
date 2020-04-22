@@ -6,7 +6,10 @@ from influxdb_client.client.write_api import SYNCHRONOUS
 
 bucket = "rick"
 
-client = InfluxDBClient(url="http://localhost:9999", token="qYOquSrL_oegF00pTbKUWPK3zOwHDAKwUeFtoMRzJXvQGQUZ22K5OJLubiCmK3OMPCe2n_Z5oGx-qLHIeayDPA==", org="ag")
+#client = InfluxDBClient(url="http://localhost:9999", token="qYOquSrL_oegF00pTbKUWPK3zOwHDAKwUeFtoMRzJXvQGQUZ22K5OJLubiCmK3OMPCe2n_Z5oGx-qLHIeayDPA==", org="ag")
+
+client = InfluxDBClient.from_env_properties()
+
 
 write_api = client.write_api(write_options=SYNCHRONOUS)
 query_api = client.query_api()
